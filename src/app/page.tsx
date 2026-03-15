@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BirdGrid } from '@/components/BirdGrid/BirdGrid';
 import { TittleButton } from '@/components/TittleButton/TittleButton';
 import { BirdCallPlayer } from '@/components/BirdCallPlayer/BirdCallPlayer';
@@ -9,24 +9,47 @@ import { CATEGORY_CONFIG, ROUND_ORDER } from '@/data/categories';
 import { getDailyBirdIndex, getTodayDate } from '@/lib/gameLogic';
 import type { GameStatus } from '@/types';
 
-const dailyBird = BIRDS[getDailyBirdIndex(getTodayDate())];
-
-// Song first, then the remaining ROUND_ORDER categories
+// Song first, then remaining categories
 const ROUND_KEYS = ['song', ...ROUND_ORDER.filter((k) => k !== 'song')] as const;
 
-const MOCK_ROUNDS = ROUND_KEYS.map((key) => {
-  const config = CATEGORY_CONFIG[key];
-  return {
-    question: config.question,
-    correct: dailyBird.categories[key].correctAnswer,
-    options: config.options as readonly string[],
-    isSong: key === 'song',
-  };
-});
+function msUntilMidnight(): number {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
+  return midnight.getTime() - now.getTime();
+}
+
+function timeUntilMidnight(): string {
+  const ms = msUntilMidnight();
+  const h = Math.floor(ms / (1000 * 60 * 60));
+  const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+  return `${h}h ${m}m`;
+}
 
 type Phase = 'answering' | 'revealing';
 
 export default function Home() {
+  const [today, setToday] = useState(getTodayDate);
+
+  // Refresh the bird at midnight without requiring a page reload
+  useEffect(() => {
+    const timer = setTimeout(() => setToday(getTodayDate()), msUntilMidnight());
+    return () => clearTimeout(timer);
+  }, [today]);
+
+  const dailyBird = BIRDS[getDailyBirdIndex(today)];
+
+  const rounds = useMemo(
+    () =>
+      ROUND_KEYS.map((key) => ({
+        question: CATEGORY_CONFIG[key].question,
+        correct: dailyBird.categories[key].correctAnswer,
+        options: CATEGORY_CONFIG[key].options as readonly string[],
+        isSong: key === 'song',
+      })),
+    [dailyBird],
+  );
+
   const [revealed, setRevealed] = useState<number[]>([]);
   const [highlighted, setHighlighted] = useState<number | null>(null);
   const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
@@ -38,7 +61,7 @@ export default function Home() {
     (i) => !revealed.includes(i),
   );
 
-  const currentRound = MOCK_ROUNDS[Math.min(roundIndex, MOCK_ROUNDS.length - 1)];
+  const currentRound = rounds[Math.min(roundIndex, rounds.length - 1)];
   const isSongRound = currentRound.isSong;
 
   const handleAnswer = (answer: string) => {
@@ -66,7 +89,7 @@ export default function Home() {
 
   const advanceRound = (currentIndex: number) => {
     const nextIndex = currentIndex + 1;
-    if (nextIndex >= MOCK_ROUNDS.length) {
+    if (nextIndex >= rounds.length) {
       setRevealed(Array.from({ length: 9 }, (_, i) => i));
       setGameStatus('lost');
     } else {
@@ -83,6 +106,9 @@ export default function Home() {
     setRoundIndex(0);
     setFeedback(null);
   };
+
+  const birdlifeUrl = `https://birdlife.org.au/bird-profiles/${dailyBird.id}`;
+  const nextTittle = timeUntilMidnight();
 
   return (
     <main className="flex min-h-svh flex-col items-center gap-5 bg-slate-950 px-4 py-8">
@@ -112,9 +138,15 @@ export default function Home() {
           <div className="flex flex-col items-center gap-4 rounded-2xl bg-slate-800 p-6 text-center">
             <p className="text-4xl">🎉</p>
             <p className="text-lg font-black text-white">You identified the bird!</p>
-            <p className="text-sm text-slate-400">
-              Preview only — the real game will ask you to type the name.
-            </p>
+            <p className="text-sm text-slate-400">Next Tittle in {nextTittle}</p>
+            <a
+              href={birdlifeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold text-amber-400 underline-offset-2 hover:underline"
+            >
+              Learn more about the {dailyBird.commonName} →
+            </a>
             <button
               onClick={reset}
               className="rounded-xl bg-amber-400 px-6 py-3 font-black text-slate-900 hover:bg-amber-300"
@@ -127,7 +159,15 @@ export default function Home() {
           <div className="flex flex-col items-center gap-4 rounded-2xl bg-slate-800 p-6 text-center">
             <p className="text-4xl">🐦</p>
             <p className="text-lg font-black text-white">It was a {dailyBird.commonName}</p>
-            <p className="text-sm text-slate-400">Better luck identifying tomorrow&apos;s bird.</p>
+            <p className="text-sm text-slate-400">Next Tittle in {nextTittle}</p>
+            <a
+              href={birdlifeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold text-amber-400 underline-offset-2 hover:underline"
+            >
+              Learn more about the {dailyBird.commonName} →
+            </a>
             <button
               onClick={reset}
               className="rounded-xl bg-slate-700 px-6 py-3 font-black text-slate-200 hover:bg-slate-600"
@@ -151,7 +191,6 @@ export default function Home() {
               )}
             </div>
 
-            {/* Audio player on the Song & Call round */}
             {isSongRound && <BirdCallPlayer songUrl={dailyBird.songUrl} birdName="Mystery bird" />}
 
             <p className="font-semibold text-white">{currentRound.question}</p>
