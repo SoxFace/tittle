@@ -20,6 +20,7 @@ import re
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'public', 'birds')
 BIRDS_TS   = os.path.join(os.path.dirname(__file__), '..', 'src', 'data', 'birds.ts')
 UA = 'Mozilla/5.0 (compatible; TittleApp/1.0)'
+XENO_CANTO_KEY = os.environ.get('XENO_CANTO_KEY', '')
 
 # (id, wiki_image_title, scientific_name_for_audio_search)
 BIRDS = [
@@ -135,7 +136,16 @@ def download_image(bird_id: str, url: str) -> bool:
 AUDIO_EXTS = ('.opus', '.ogg', '.flac', '.mp3', '.wav')
 
 def get_audio_file_url(sci_name: str) -> str | None:
-    """Search Wikimedia Commons for a CC-licensed call recording."""
+    """Search Wikimedia Commons first, fall back to xeno-canto v3."""
+    url = _wikimedia_audio_url(sci_name)
+    if url:
+        return url
+    if XENO_CANTO_KEY:
+        return _xeno_canto_audio_url(sci_name)
+    return None
+
+
+def _wikimedia_audio_url(sci_name: str) -> str | None:
     query = sci_name.replace(' ', '+') + '+filetype:audio'
     data = curl_json(
         f'https://commons.wikimedia.org/w/api.php'
@@ -147,9 +157,8 @@ def get_audio_file_url(sci_name: str) -> str | None:
         return None
 
     results = data.get('query', {}).get('search', [])
-    # Prefer ANWC (Australian National Wildlife Collection) recordings, then any audio
     preferred = [r for r in results if 'ANWC' in r['title']]
-    candidates = (preferred or results)
+    candidates = preferred or results
 
     for candidate in candidates:
         title = candidate['title']
@@ -165,6 +174,26 @@ def get_audio_file_url(sci_name: str) -> str | None:
                 ii = page.get('imageinfo', [])
                 if ii:
                     return ii[0]['url']
+    return None
+
+
+def _xeno_canto_audio_url(sci_name: str) -> str | None:
+    """Return the download URL for the best xeno-canto call recording."""
+    genus, species = sci_name.split(' ', 1)
+    # Try A-quality calls first, then any quality
+    for q_filter in ('+q:A', ''):
+        query = f'gen:{genus}+sp:{species}{q_filter}'
+        data = curl_json(
+            f'https://xeno-canto.org/api/3/recordings'
+            f'?query={query}&key={XENO_CANTO_KEY}'
+        )
+        recordings = (data or {}).get('recordings', [])
+        if recordings:
+            calls = [r for r in recordings if 'call' in r.get('type', '').lower()]
+            rec = calls[0] if calls else recordings[0]
+            file_url = rec.get('file', '')
+            if file_url:
+                return file_url if file_url.startswith('http') else 'https:' + file_url
     return None
 
 

@@ -370,6 +370,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Australian Pelican',
     scientificName: 'Pelecanus conspicillatus',
     imageUrl: '/birds/australian-pelican.webp',
+    songUrl: '/birds/australian-pelican.mp3',
     difficulty: 'common',
     aliases: ['pelican', 'australian pelican'],
     funFact:
@@ -676,6 +677,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Wedge-tailed Eagle',
     scientificName: 'Aquila audax',
     imageUrl: '/birds/wedge-tailed-eagle.webp',
+    songUrl: '/birds/wedge-tailed-eagle.mp3',
     difficulty: 'familiar',
     aliases: ['wedge tailed eagle', 'wedge-tailed eagle', 'wedgie'],
     funFact:
@@ -725,6 +727,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Tawny Frogmouth',
     scientificName: 'Podargus strigoides',
     imageUrl: '/birds/tawny-frogmouth.webp',
+    songUrl: '/birds/tawny-frogmouth.mp3',
     difficulty: 'familiar',
     aliases: ['tawny frogmouth', 'frogmouth'],
     funFact:
@@ -927,6 +930,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Australian Wood Duck',
     scientificName: 'Chenonetta jubata',
     imageUrl: '/birds/australian-wood-duck.webp',
+    songUrl: '/birds/australian-wood-duck.mp3',
     difficulty: 'familiar',
     aliases: ['wood duck', 'australian wood duck', 'maned duck', 'maned goose'],
     funFact:
@@ -976,6 +980,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Brolga',
     scientificName: 'Antigone rubicunda',
     imageUrl: '/birds/brolga.webp',
+    songUrl: '/birds/brolga.mp3',
     difficulty: 'familiar',
     aliases: ['brolga', 'native companion'],
     funFact:
@@ -1127,6 +1132,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Red-tailed Black Cockatoo',
     scientificName: 'Calyptorhynchus banksii',
     imageUrl: '/birds/red-tailed-black-cockatoo.webp',
+    songUrl: '/birds/red-tailed-black-cockatoo.mp3',
     difficulty: 'familiar',
     aliases: ['red tailed black cockatoo', 'red-tailed black cockatoo', 'black cockatoo'],
     funFact:
@@ -1430,6 +1436,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Fairy Martin',
     scientificName: 'Petrochelidon ariel',
     imageUrl: '/birds/fairy-martin.webp',
+    songUrl: '/birds/fairy-martin.mp3',
     difficulty: 'rare',
     aliases: ['fairy martin', 'bottle swallow'],
     funFact:
@@ -1479,6 +1486,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Regent Honeyeater',
     scientificName: 'Anthochaera phrygia',
     imageUrl: '/birds/regent-honeyeater.webp',
+    songUrl: '/birds/regent-honeyeater.mp3',
     difficulty: 'rare',
     aliases: ['regent honeyeater'],
     funFact:
