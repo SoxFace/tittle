@@ -47,5 +47,6 @@ export interface GameState {
   revealedSquares: number[]; // Indices 0–8 of the 3x3 grid
   rounds: GameRound[];
   currentRoundIndex: number; // 0–8
+  awaitingReveal: boolean; // true after a correct answer, waiting for "Tittle it" press
   status: GameStatus;
 }
