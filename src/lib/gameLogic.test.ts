@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { BIRDS } from '@/data/birds';
 import { ROUND_ORDER } from '@/data/categories';
 import {
