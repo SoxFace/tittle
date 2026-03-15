@@ -5,9 +5,8 @@ import { BirdGrid } from '@/components/BirdGrid/BirdGrid';
 import { TittleButton } from '@/components/TittleButton/TittleButton';
 import type { GameStatus } from '@/types';
 
-// Placeholder image — real bird images go in /public/birds/{id}.webp
-const PLACEHOLDER_IMAGE =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Gull_portrait_ca_usa.jpg/1280px-Gull_portrait_ca_usa.jpg';
+// Local placeholder — replace with /birds/{id}.webp when real images are added
+const PLACEHOLDER_IMAGE = '/birds/placeholder.svg';
 
 // Minimal category mock so you can feel the round flow
 const MOCK_ROUNDS = [

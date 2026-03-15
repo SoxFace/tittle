@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#0f172a"/>
+
+  <!-- Sky gradient -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#sky)"/>
+
+  <!-- Ground -->
+  <rect y="400" width="600" height="200" fill="#1a1a0f"/>
+
+  <!-- Tree silhouettes -->
+  <rect x="30" y="280" width="18" height="140" fill="#0d1f0d"/>
+  <ellipse cx="39" cy="260" rx="38" ry="55" fill="#0d1f0d"/>
+  <rect x="520" y="300" width="22" height="120" fill="#0d1f0d"/>
+  <ellipse cx="531" cy="275" rx="44" ry="62" fill="#0d1f0d"/>
+  <rect x="460" y="320" width="14" height="100" fill="#0d1f0d"/>
+  <ellipse cx="467" cy="305" rx="28" ry="40" fill="#0d1f0d"/>
+
+  <!-- Branch -->
+  <rect x="100" y="305" width="220" height="12" rx="6" fill="#2d1a00"/>
+  <rect x="90" y="295" width="18" height="100" rx="6" fill="#2d1a00"/>
+
+  <!-- Bird body -->
+  <ellipse cx="240" cy="290" rx="52" ry="30" fill="#8B6914"/>
+  <!-- Head -->
+  <circle cx="290" cy="278" r="24" fill="#8B6914"/>
+  <!-- Eye -->
+  <circle cx="298" cy="273" r="5" fill="#1a0a00"/>
+  <circle cx="299" cy="272" r="2" fill="#fff"/>
+  <!-- Beak — large dagger-like -->
+  <polygon points="314,274 350,277 314,282" fill="#c8a040"/>
+  <!-- Wing highlight -->
+  <ellipse cx="230" cy="286" rx="35" ry="18" fill="#6b4f10" opacity="0.6"/>
+  <!-- Tail -->
+  <polygon points="188,292 148,278 148,308" fill="#7a5c12"/>
+  <!-- Foot on branch -->
+  <line x1="240" y1="318" x2="225" y2="317" stroke="#c8a040" stroke-width="3"/>
+  <line x1="230" y1="317" x2="215" y2="328" stroke="#c8a040" stroke-width="2.5"/>
+  <line x1="225" y1="317" x2="220" y2="330" stroke="#c8a040" stroke-width="2.5"/>
+  <line x1="240" y1="318" x2="255" y2="317" stroke="#c8a040" stroke-width="3"/>
+  <line x1="255" y1="317" x2="265" y2="328" stroke="#c8a040" stroke-width="2.5"/>
+
+  <!-- Stars -->
+  <circle cx="150" cy="60" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="280" cy="40" r="1" fill="white" opacity="0.5"/>
+  <circle cx="420" cy="80" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="500" cy="50" r="1" fill="white" opacity="0.6"/>
+  <circle cx="80" cy="100" r="1" fill="white" opacity="0.4"/>
+  <circle cx="360" cy="55" r="2" fill="white" opacity="0.6"/>
+
+  <!-- Label -->
+  <text x="300" y="500" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#475569" letter-spacing="3">BIRD OF THE DAY</text>
+  <text x="300" y="530" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#334155">Add images to /public/birds/</text>
+</svg>
