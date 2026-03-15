@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
+import Link from 'next/link';
 import { BirdGrid } from '@/components/BirdGrid/BirdGrid';
 import { TittleButton } from '@/components/TittleButton/TittleButton';
 import { BirdCallPlayer } from '@/components/BirdCallPlayer/BirdCallPlayer';
@@ -115,9 +116,14 @@ export default function Home() {
       {/* Header */}
       <div className="flex w-full max-w-sm items-center justify-between">
         <h1 className="text-2xl font-black tracking-tight text-white">Tittle</h1>
-        <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-400">
-          {revealed.length}/9 revealed
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-400">
+            {revealed.length}/9 revealed
+          </span>
+          <Link href="/about" className="text-xs font-semibold text-slate-500 hover:text-slate-300">
+            Why?
+          </Link>
+        </div>
       </div>
 
       {/* Bird grid */}
