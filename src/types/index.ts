@@ -25,6 +25,7 @@ export interface Bird {
   commonName: string;
   scientificName: string;
   imageUrl: string; // /birds/{id}.webp
+  songUrl?: string; // Xeno-canto recording URL e.g. https://xeno-canto.org/sounds/uploaded/...
   categories: Record<CategoryKey, BirdCategory>;
   funFact: string;
   difficulty: 'common' | 'familiar' | 'rare';

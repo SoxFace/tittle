@@ -9,16 +9,27 @@ interface GridSquareProps {
 }
 
 export function GridSquare({ index, isHighlighted }: GridSquareProps) {
+  // Pin each tile to its fixed 1/9 cell using absolute positioning.
+  // CSS grid would reflow remaining tiles into the gap when a tile is removed,
+  // causing the wrong tile to appear to disappear.
+  const row = Math.floor(index / 3);
+  const col = index % 3;
+
   return (
     <motion.div
-      // Exit animation — plays when this square is removed from the DOM on reveal
       exit={{
         scale: [1, 1.15, 0],
         opacity: [1, 1, 0],
         transition: { duration: 0.38, ease: [0.4, 0, 0.6, 1] },
       }}
+      style={{
+        position: 'absolute',
+        top: `${(row / 3) * 100}%`,
+        left: `${(col / 3) * 100}%`,
+        width: '33.333%',
+        height: '33.333%',
+      }}
       className={cn(
-        // Base styles — no CSS transition on bg-color so the fast cycler looks snappy
         'flex items-center justify-center outline outline-1 outline-black/20 select-none',
         isHighlighted
           ? 'bg-amber-400 shadow-[inset_0_0_0_3px_theme(colors.amber.200)]'

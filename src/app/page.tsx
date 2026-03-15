@@ -3,17 +3,24 @@
 import { useState } from 'react';
 import { BirdGrid } from '@/components/BirdGrid/BirdGrid';
 import { TittleButton } from '@/components/TittleButton/TittleButton';
+import { BirdCallPlayer } from '@/components/BirdCallPlayer/BirdCallPlayer';
+import { BIRDS } from '@/data/birds';
 import type { GameStatus } from '@/types';
 
-// Local placeholder — replace with /birds/{id}.webp when real images are added
 const PLACEHOLDER_IMAGE = '/birds/placeholder.svg';
 
-// Minimal category mock so you can feel the round flow
+// Song round index in MOCK_ROUNDS — swap out for real categoryKey check in the full game
+const SONG_ROUND_INDEX = 3;
+
+const kookaburra = BIRDS.find((b) => b.id === 'laughing-kookaburra')!;
+const KOOKABURRA_SONG_URL = kookaburra.songUrl;
+
 const MOCK_ROUNDS = [
   {
     question: 'How big is this bird?',
     correct: 'Medium (30–50 cm)',
     options: ['Tiny (under 12 cm)', 'Small (12–30 cm)', 'Medium (30–50 cm)', 'Large (50–80 cm)'],
+    isSong: false,
   },
   {
     question: 'Where does it live?',
@@ -24,6 +31,7 @@ const MOCK_ROUNDS = [
       'Urban & suburban gardens',
       'Coastal & ocean',
     ],
+    isSong: false,
   },
   {
     question: "What's its main diet?",
@@ -34,19 +42,22 @@ const MOCK_ROUNDS = [
       'Small mammals & reptiles',
       'Fish & aquatic life',
     ],
+    isSong: false,
   },
   {
     question: 'How would you describe its call?',
     correct: 'Laughing or cackling',
     options: ['Melodic & musical', 'Loud & raucous', 'Laughing or cackling', 'Mostly silent'],
+    isSong: true,
   },
   {
     question: "What's its beak like?",
     correct: 'Large & powerful',
     options: ['Short & hooked', 'Long & dagger-like', 'Short & stubby', 'Large & powerful'],
+    isSong: false,
   },
   {
-    question: 'What type of feet?',
+    question: 'What type of feet does it have?',
     correct: 'Zygodactyl (two toes each way)',
     options: [
       'Perching (three toes forward)',
@@ -54,19 +65,22 @@ const MOCK_ROUNDS = [
       'Taloned (strong raptor grip)',
       'Swimming (webbed)',
     ],
+    isSong: false,
   },
   {
     question: 'How does it fly?',
     correct: 'Fast & direct',
     options: ['Soaring on thermals', 'Fast & direct', 'Hovering in place', 'Swooping & diving'],
+    isSong: false,
   },
   {
     question: 'Describe its plumage',
     correct: 'Brown & mottled',
     options: ['Vivid multicolour', 'Black & white', 'Brown & mottled', 'Blue or iridescent'],
+    isSong: false,
   },
   {
-    question: 'When is it found?',
+    question: 'When is this bird found in Australia?',
     correct: 'Year-round resident',
     options: [
       'Year-round resident',
@@ -74,6 +88,7 @@ const MOCK_ROUNDS = [
       'Winter visitor from the north',
       'Nomadic (follows food or rain)',
     ],
+    isSong: false,
   },
 ];
 
@@ -92,6 +107,7 @@ export default function Home() {
   );
 
   const currentRound = MOCK_ROUNDS[Math.min(roundIndex, MOCK_ROUNDS.length - 1)];
+  const isSongRound = roundIndex === SONG_ROUND_INDEX;
 
   const handleAnswer = (answer: string) => {
     const isCorrect = answer === currentRound.correct;
@@ -99,7 +115,7 @@ export default function Home() {
       setFeedback('✓ Correct! Now Tittle It to reveal a square.');
       setPhase('revealing');
     } else {
-      setFeedback(`✗ Not quite. The answer was: ${currentRound.correct}`);
+      setFeedback(`✗ The answer was: ${currentRound.correct}`);
       advanceRound();
     }
   };
@@ -159,7 +175,7 @@ export default function Home() {
             <p className="text-4xl">🎉</p>
             <p className="text-lg font-black text-white">You identified the bird!</p>
             <p className="text-sm text-slate-400">
-              This was a preview — the real game will ask you to type the name.
+              Preview only — the real game will ask you to type the name.
             </p>
             <button
               onClick={reset}
@@ -183,8 +199,15 @@ export default function Home() {
                 </span>
               )}
             </div>
+
+            {/* Audio player on the Song & Call round */}
+            {isSongRound && (
+              <BirdCallPlayer songUrl={KOOKABURRA_SONG_URL} birdName="Mystery bird" />
+            )}
+
             <p className="font-semibold text-white">{currentRound.question}</p>
-            <div className="grid grid-cols-1 gap-2">
+
+            <div className="flex flex-col gap-2">
               {currentRound.options.map((opt) => (
                 <button
                   key={opt}
@@ -208,7 +231,7 @@ export default function Home() {
               onHighlightChange={setHighlighted}
             />
             <p className="text-center text-xs text-slate-500">
-              The numbers are cycling — press the button to freeze it!
+              Numbers cycling — press to freeze and reveal that square
             </p>
           </div>
         )}

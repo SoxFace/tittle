@@ -13,6 +13,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Laughing Kookaburra',
     scientificName: 'Dacelo novaeguineae',
     imageUrl: '/birds/laughing-kookaburra.webp',
+    songUrl: '/birds/laughing-kookaburra.mp3',
+    songUrl: '/birds/laughing-kookaburra.mp3',
     difficulty: 'common',
     aliases: ['kookaburra', 'laughing kookaburra'],
     funFact:
@@ -62,6 +64,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Sulphur-crested Cockatoo',
     scientificName: 'Cacatua galerita',
     imageUrl: '/birds/sulphur-crested-cockatoo.webp',
+    songUrl: '/birds/sulphur-crested-cockatoo.mp3',
+    songUrl: '/birds/sulphur-crested-cockatoo.mp3',
     difficulty: 'common',
     aliases: ['sulphur crested cockatoo', 'white cockatoo', 'cockatoo'],
     funFact:
@@ -111,6 +115,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Rainbow Lorikeet',
     scientificName: 'Trichoglossus moluccanus',
     imageUrl: '/birds/rainbow-lorikeet.webp',
+    songUrl: '/birds/rainbow-lorikeet.mp3',
+    songUrl: '/birds/rainbow-lorikeet.mp3',
     difficulty: 'common',
     aliases: ['lorikeet', 'rainbow lorikeet'],
     funFact:
@@ -160,6 +166,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Australian Magpie',
     scientificName: 'Gymnorhina tibicen',
     imageUrl: '/birds/australian-magpie.webp',
+    songUrl: '/birds/australian-magpie.mp3',
+    songUrl: '/birds/australian-magpie.mp3',
     difficulty: 'common',
     aliases: ['magpie', 'australian magpie'],
     funFact:
@@ -209,6 +217,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Galah',
     scientificName: 'Eolophus roseicapilla',
     imageUrl: '/birds/galah.webp',
+    songUrl: '/birds/galah.mp3',
+    songUrl: '/birds/galah.mp3',
     difficulty: 'common',
     aliases: ['galah', 'rose-breasted cockatoo'],
     funFact:
@@ -258,6 +268,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Willie Wagtail',
     scientificName: 'Rhipidura leucophrys',
     imageUrl: '/birds/willie-wagtail.webp',
+    songUrl: '/birds/willie-wagtail.mp3',
+    songUrl: '/birds/willie-wagtail.mp3',
     difficulty: 'common',
     aliases: ['willie wagtail', 'wagtail'],
     funFact:
@@ -307,6 +319,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Emu',
     scientificName: 'Dromaius novaehollandiae',
     imageUrl: '/birds/emu.webp',
+    songUrl: '/birds/emu.mp3',
+    songUrl: '/birds/emu.mp3',
     difficulty: 'common',
     aliases: ['emu'],
     funFact:
@@ -405,6 +419,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Black Swan',
     scientificName: 'Cygnus atratus',
     imageUrl: '/birds/black-swan.webp',
+    songUrl: '/birds/black-swan.mp3',
+    songUrl: '/birds/black-swan.mp3',
     difficulty: 'common',
     aliases: ['black swan'],
     funFact:
@@ -454,6 +470,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Australian White Ibis',
     scientificName: 'Threskiornis molucca',
     imageUrl: '/birds/australian-white-ibis.webp',
+    songUrl: '/birds/australian-white-ibis.mp3',
+    songUrl: '/birds/australian-white-ibis.mp3',
     difficulty: 'common',
     aliases: ['white ibis', 'ibis', 'bin chicken', 'australian white ibis'],
     funFact:
@@ -505,6 +523,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Noisy Miner',
     scientificName: 'Manorina melanocephala',
     imageUrl: '/birds/noisy-miner.webp',
+    songUrl: '/birds/noisy-miner.mp3',
+    songUrl: '/birds/noisy-miner.mp3',
     difficulty: 'familiar',
     aliases: ['noisy miner', 'miner'],
     funFact:
@@ -554,6 +574,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Eastern Rosella',
     scientificName: 'Platycercus eximius',
     imageUrl: '/birds/eastern-rosella.webp',
+    songUrl: '/birds/eastern-rosella.mp3',
+    songUrl: '/birds/eastern-rosella.mp3',
     difficulty: 'familiar',
     aliases: ['eastern rosella', 'rosella'],
     funFact:
@@ -603,6 +625,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Superb Fairy-wren',
     scientificName: 'Malurus cyaneus',
     imageUrl: '/birds/superb-fairy-wren.webp',
+    songUrl: '/birds/superb-fairy-wren.mp3',
+    songUrl: '/birds/superb-fairy-wren.mp3',
     difficulty: 'familiar',
     aliases: ['superb fairy wren', 'fairy wren', 'blue wren', 'superb fairywren'],
     funFact:
@@ -750,6 +774,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Sacred Kingfisher',
     scientificName: 'Todiramphus sanctus',
     imageUrl: '/birds/sacred-kingfisher.webp',
+    songUrl: '/birds/sacred-kingfisher.mp3',
+    songUrl: '/birds/sacred-kingfisher.mp3',
     difficulty: 'familiar',
     aliases: ['sacred kingfisher', 'kingfisher'],
     funFact:
@@ -799,6 +825,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Crimson Rosella',
     scientificName: 'Platycercus elegans',
     imageUrl: '/birds/crimson-rosella.webp',
+    songUrl: '/birds/crimson-rosella.mp3',
+    songUrl: '/birds/crimson-rosella.mp3',
     difficulty: 'familiar',
     aliases: ['crimson rosella', 'rosella'],
     funFact:
@@ -848,6 +876,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Pied Currawong',
     scientificName: 'Strepera graculina',
     imageUrl: '/birds/pied-currawong.webp',
+    songUrl: '/birds/pied-currawong.mp3',
+    songUrl: '/birds/pied-currawong.mp3',
     difficulty: 'familiar',
     aliases: ['pied currawong', 'currawong'],
     funFact:
@@ -995,6 +1025,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Little Penguin',
     scientificName: 'Eudyptula minor',
     imageUrl: '/birds/little-penguin.webp',
+    songUrl: '/birds/little-penguin.mp3',
+    songUrl: '/birds/little-penguin.mp3',
     difficulty: 'familiar',
     aliases: ['little penguin', 'fairy penguin', 'little blue penguin'],
     funFact:
@@ -1044,6 +1076,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Satin Bowerbird',
     scientificName: 'Ptilonorhynchus violaceus',
     imageUrl: '/birds/satin-bowerbird.webp',
+    songUrl: '/birds/satin-bowerbird.mp3',
+    songUrl: '/birds/satin-bowerbird.mp3',
     difficulty: 'familiar',
     aliases: ['satin bowerbird', 'bowerbird'],
     funFact:
@@ -1142,6 +1176,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Barn Owl',
     scientificName: 'Tyto alba',
     imageUrl: '/birds/barn-owl.webp',
+    songUrl: '/birds/barn-owl.mp3',
+    songUrl: '/birds/barn-owl.mp3',
     difficulty: 'familiar',
     aliases: ['barn owl'],
     funFact:
@@ -1193,6 +1229,8 @@ export const BIRDS: Bird[] = [
     commonName: 'Spotted Pardalote',
     scientificName: 'Pardalotus punctatus',
     imageUrl: '/birds/spotted-pardalote.webp',
+    songUrl: '/birds/spotted-pardalote.mp3',
+    songUrl: '/birds/spotted-pardalote.mp3',
     difficulty: 'rare',
     aliases: ['spotted pardalote', 'pardalote'],
     funFact:
@@ -1242,6 +1280,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Powerful Owl',
     scientificName: 'Ninox strenua',
     imageUrl: '/birds/powerful-owl.webp',
+    songUrl: '/birds/powerful-owl.mp3',
     difficulty: 'rare',
     aliases: ['powerful owl'],
     funFact:
@@ -1291,6 +1330,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Channel-billed Cuckoo',
     scientificName: 'Scythrops novaehollandiae',
     imageUrl: '/birds/channel-billed-cuckoo.webp',
+    songUrl: '/birds/channel-billed-cuckoo.mp3',
     difficulty: 'rare',
     aliases: ['channel billed cuckoo', 'channel-billed cuckoo', 'storm bird'],
     funFact:
@@ -1340,6 +1380,7 @@ export const BIRDS: Bird[] = [
     commonName: 'Little Corella',
     scientificName: 'Cacatua sanguinea',
     imageUrl: '/birds/little-corella.webp',
+    songUrl: '/birds/little-corella.mp3',
     difficulty: 'rare',
     aliases: ['little corella', 'corella', 'bare-eyed cockatoo'],
     funFact:

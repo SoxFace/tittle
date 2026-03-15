@@ -36,8 +36,8 @@ export function BirdGrid({
         sizes="(max-width: 640px) 100vw, 480px"
       />
 
-      {/* ── 3×3 grid overlay ── */}
-      <div className="absolute inset-0 grid grid-cols-3 grid-rows-3">
+      {/* ── 3×3 tile overlay — each GridSquare is absolutely positioned ── */}
+      <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           {SQUARES.map((i) =>
             revealedSquares.includes(i) ? null : (
