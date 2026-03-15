@@ -5,92 +5,24 @@ import { BirdGrid } from '@/components/BirdGrid/BirdGrid';
 import { TittleButton } from '@/components/TittleButton/TittleButton';
 import { BirdCallPlayer } from '@/components/BirdCallPlayer/BirdCallPlayer';
 import { BIRDS } from '@/data/birds';
+import { CATEGORY_CONFIG, ROUND_ORDER } from '@/data/categories';
+import { getDailyBirdIndex, getTodayDate } from '@/lib/gameLogic';
 import type { GameStatus } from '@/types';
 
-const PLACEHOLDER_IMAGE = '/birds/placeholder.svg';
+const dailyBird = BIRDS[getDailyBirdIndex(getTodayDate())];
 
-// Song round index in MOCK_ROUNDS — swap out for real categoryKey check in the full game
-const SONG_ROUND_INDEX = 3;
+// Song first, then the remaining ROUND_ORDER categories
+const ROUND_KEYS = ['song', ...ROUND_ORDER.filter((k) => k !== 'song')] as const;
 
-const kookaburra = BIRDS.find((b) => b.id === 'laughing-kookaburra')!;
-const KOOKABURRA_SONG_URL = kookaburra.songUrl;
-
-const MOCK_ROUNDS = [
-  {
-    question: 'How big is this bird?',
-    correct: 'Medium (30–50 cm)',
-    options: ['Tiny (under 12 cm)', 'Small (12–30 cm)', 'Medium (30–50 cm)', 'Large (50–80 cm)'],
-    isSong: false,
-  },
-  {
-    question: 'Where does it live?',
-    correct: 'Woodland & forest',
-    options: [
-      'Wetland & waterways',
-      'Woodland & forest',
-      'Urban & suburban gardens',
-      'Coastal & ocean',
-    ],
-    isSong: false,
-  },
-  {
-    question: "What's its main diet?",
-    correct: 'Small mammals & reptiles',
-    options: [
-      'Insects & invertebrates',
-      'Seeds & grain',
-      'Small mammals & reptiles',
-      'Fish & aquatic life',
-    ],
-    isSong: false,
-  },
-  {
-    question: 'How would you describe its call?',
-    correct: 'Laughing or cackling',
-    options: ['Melodic & musical', 'Loud & raucous', 'Laughing or cackling', 'Mostly silent'],
-    isSong: true,
-  },
-  {
-    question: "What's its beak like?",
-    correct: 'Large & powerful',
-    options: ['Short & hooked', 'Long & dagger-like', 'Short & stubby', 'Large & powerful'],
-    isSong: false,
-  },
-  {
-    question: 'What type of feet does it have?',
-    correct: 'Zygodactyl (two toes each way)',
-    options: [
-      'Perching (three toes forward)',
-      'Zygodactyl (two toes each way)',
-      'Taloned (strong raptor grip)',
-      'Swimming (webbed)',
-    ],
-    isSong: false,
-  },
-  {
-    question: 'How does it fly?',
-    correct: 'Fast & direct',
-    options: ['Soaring on thermals', 'Fast & direct', 'Hovering in place', 'Swooping & diving'],
-    isSong: false,
-  },
-  {
-    question: 'Describe its plumage',
-    correct: 'Brown & mottled',
-    options: ['Vivid multicolour', 'Black & white', 'Brown & mottled', 'Blue or iridescent'],
-    isSong: false,
-  },
-  {
-    question: 'When is this bird found in Australia?',
-    correct: 'Year-round resident',
-    options: [
-      'Year-round resident',
-      'Summer breeding visitor',
-      'Winter visitor from the north',
-      'Nomadic (follows food or rain)',
-    ],
-    isSong: false,
-  },
-];
+const MOCK_ROUNDS = ROUND_KEYS.map((key) => {
+  const config = CATEGORY_CONFIG[key];
+  return {
+    question: config.question,
+    correct: dailyBird.categories[key].correctAnswer,
+    options: config.options as readonly string[],
+    isSong: key === 'song',
+  };
+});
 
 type Phase = 'answering' | 'revealing';
 
@@ -107,7 +39,7 @@ export default function Home() {
   );
 
   const currentRound = MOCK_ROUNDS[Math.min(roundIndex, MOCK_ROUNDS.length - 1)];
-  const isSongRound = roundIndex === SONG_ROUND_INDEX;
+  const isSongRound = currentRound.isSong;
 
   const handleAnswer = (answer: string) => {
     const isCorrect = answer === currentRound.correct;
@@ -116,7 +48,7 @@ export default function Home() {
       setPhase('revealing');
     } else {
       setFeedback(`✗ The answer was: ${currentRound.correct}`);
-      advanceRound();
+      advanceRound(roundIndex);
     }
   };
 
@@ -128,13 +60,19 @@ export default function Home() {
     if (nextRevealed.length >= 9) {
       setGameStatus('won');
     } else {
-      advanceRound();
+      advanceRound(roundIndex);
     }
   };
 
-  const advanceRound = () => {
-    setPhase('answering');
-    setRoundIndex((r) => r + 1);
+  const advanceRound = (currentIndex: number) => {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= MOCK_ROUNDS.length) {
+      setRevealed(Array.from({ length: 9 }, (_, i) => i));
+      setGameStatus('lost');
+    } else {
+      setPhase('answering');
+      setRoundIndex(nextIndex);
+    }
   };
 
   const reset = () => {
@@ -159,8 +97,8 @@ export default function Home() {
       {/* Bird grid */}
       <div className="w-full max-w-sm">
         <BirdGrid
-          imageUrl={PLACEHOLDER_IMAGE}
-          birdName="Laughing Kookaburra"
+          imageUrl={dailyBird.imageUrl}
+          birdName={dailyBird.commonName}
           revealedSquares={revealed}
           highlightedSquare={highlighted}
           gameStatus={gameStatus}
@@ -184,6 +122,19 @@ export default function Home() {
               Play again
             </button>
           </div>
+        ) : gameStatus === 'lost' ? (
+          /* ── Lost state ── */
+          <div className="flex flex-col items-center gap-4 rounded-2xl bg-slate-800 p-6 text-center">
+            <p className="text-4xl">🐦</p>
+            <p className="text-lg font-black text-white">It was a {dailyBird.commonName}</p>
+            <p className="text-sm text-slate-400">Better luck identifying tomorrow&apos;s bird.</p>
+            <button
+              onClick={reset}
+              className="rounded-xl bg-slate-700 px-6 py-3 font-black text-slate-200 hover:bg-slate-600"
+            >
+              Try again
+            </button>
+          </div>
         ) : phase === 'answering' ? (
           /* ── Category question ── */
           <div className="flex flex-col gap-3 rounded-2xl bg-slate-800 p-4">
@@ -201,9 +152,7 @@ export default function Home() {
             </div>
 
             {/* Audio player on the Song & Call round */}
-            {isSongRound && (
-              <BirdCallPlayer songUrl={KOOKABURRA_SONG_URL} birdName="Mystery bird" />
-            )}
+            {isSongRound && <BirdCallPlayer songUrl={dailyBird.songUrl} birdName="Mystery bird" />}
 
             <p className="font-semibold text-white">{currentRound.question}</p>
 
