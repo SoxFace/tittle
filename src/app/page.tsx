@@ -117,7 +117,10 @@ export default function Home() {
       <div className="flex w-full max-w-sm items-center justify-between">
         <h1 className="text-lg font-black tracking-tight text-white">
           Tittle
-          <span className="font-normal text-slate-500"> &mdash; it&apos;s Wordle for tits</span>
+          <span className="font-normal text-slate-500">
+            {' '}
+            &ldquo;it&apos;s Wordle for tits&rdquo;
+          </span>
         </h1>
         <div className="flex items-center gap-3">
           <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-400">
