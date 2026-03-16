@@ -115,7 +115,10 @@ export default function Home() {
     <main className="flex min-h-svh flex-col items-center gap-5 bg-slate-950 px-4 py-8">
       {/* Header */}
       <div className="flex w-full max-w-sm items-center justify-between">
-        <h1 className="text-2xl font-black tracking-tight text-white">Tittle</h1>
+        <h1 className="text-lg font-black tracking-tight text-white">
+          Tittle
+          <span className="font-normal text-slate-500"> &mdash; it&apos;s Wordle for tits</span>
+        </h1>
         <div className="flex items-center gap-3">
           <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-400">
             {revealed.length}/9 revealed
