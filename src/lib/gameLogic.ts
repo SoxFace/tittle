@@ -1,22 +1,28 @@
 import { BIRDS } from '@/data/birds';
+import { BIRD_SCHEDULE } from '@/data/schedule';
 import { ROUND_ORDER } from '@/data/categories';
 import type { Bird, CategoryKey, GameRound, GameState } from '@/types';
 
-/** Returns today's date as YYYY-MM-DD in the local timezone. */
+/**
+ * Returns today's date as YYYY-MM-DD in the Australia/Sydney timezone.
+ * Always use Sydney time so the bird rolls over at midnight AEDT/AEST
+ * regardless of where the server is running (Vercel uses UTC).
+ */
 export function getTodayDate(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'Australia/Sydney' });
 }
 
 /**
- * Maps a date string (YYYY-MM-DD) to a stable bird index.
- * Counts days elapsed since a fixed epoch so each calendar day yields
- * a different bird, cycling through the full catalogue.
+ * Maps a date string (YYYY-MM-DD) to a bird index via the frozen schedule.
+ * Using a schedule means adding or reordering birds never shifts existing dates.
  */
 export function getDailyBirdIndex(date: string): number {
+  const birdId = BIRD_SCHEDULE[date];
+  if (birdId) {
+    const idx = BIRDS.findIndex((b) => b.id === birdId);
+    if (idx !== -1) return idx;
+  }
+  // Fallback for dates beyond the schedule
   const epoch = new Date('2025-01-01').getTime();
   const target = new Date(date).getTime();
   const daysSinceEpoch = Math.floor((target - epoch) / (1000 * 60 * 60 * 24));
