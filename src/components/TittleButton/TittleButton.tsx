@@ -26,10 +26,12 @@ interface TittleButtonProps {
 export function TittleButton({ availableSquares, onReveal, onHighlightChange }: TittleButtonProps) {
   const { highlighted, cycling, start, stop } = useCatchphrase(availableSquares);
 
-  // Keep a stable ref to onHighlightChange to avoid re-running the sync effect
+  // Keep stable refs to callbacks so the cycling interval never captures stale closures
   const onHighlightChangeRef = useRef(onHighlightChange);
+  const onRevealRef = useRef(onReveal);
   useEffect(() => {
     onHighlightChangeRef.current = onHighlightChange;
+    onRevealRef.current = onReveal;
   });
 
   // Sync the cycling highlight up to the parent → BirdGrid
@@ -41,7 +43,6 @@ export function TittleButton({ availableSquares, onReveal, onHighlightChange }: 
   useEffect(() => {
     start();
     return () => {
-      // Ensure the interval is cleared if the component unmounts mid-cycle
       stop();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,7 +51,7 @@ export function TittleButton({ availableSquares, onReveal, onHighlightChange }: 
   const handlePress = () => {
     if (!cycling) return;
     const squareIndex = stop();
-    onReveal(squareIndex);
+    onRevealRef.current(squareIndex);
   };
 
   return (
