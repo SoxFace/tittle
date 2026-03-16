@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { BirdGrid } from '@/components/BirdGrid/BirdGrid';
 import { TittleButton } from '@/components/TittleButton/TittleButton';
@@ -30,13 +30,18 @@ function timeUntilMidnight(): string {
 type Phase = 'answering' | 'revealing';
 
 export default function Home() {
-  // useSyncExternalStore calls getTodayDate() fresh on both server and client,
-  // resolving any hydration mismatch from static pre-rendering, and re-syncs at midnight.
-  const subscribeMidnight = useCallback((callback: () => void) => {
-    const timer = setTimeout(callback, msUntilMidnight());
-    return () => clearTimeout(timer);
+  const [today, setToday] = useState(getTodayDate);
+
+  useEffect(() => {
+    // Correct any stale date from static pre-rendering (0ms = after hydration, not synchronous in effect body).
+    // Second timeout refreshes the bird at midnight without a page reload.
+    const correct = setTimeout(() => setToday(getTodayDate()), 0);
+    const midnight = setTimeout(() => setToday(getTodayDate()), msUntilMidnight());
+    return () => {
+      clearTimeout(correct);
+      clearTimeout(midnight);
+    };
   }, []);
-  const today = useSyncExternalStore(subscribeMidnight, getTodayDate, getTodayDate);
 
   const dailyBird = BIRDS[getDailyBirdIndex(today)];
 
